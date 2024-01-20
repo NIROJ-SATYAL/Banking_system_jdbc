@@ -70,7 +70,8 @@ public class Main {
                         user.register();
                         break;
                     case 2:
-                        System.out.println("Login page......");
+                        int user_id= user.Login();
+                        System.out.println(user_id);
                         break;
                     case 3:
 

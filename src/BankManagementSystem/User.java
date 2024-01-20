@@ -54,6 +54,45 @@ public class User {
     }
 
 
+    public int Login(){
+            int id = 0;
+        System.out.println("*********Login*********");
+        scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        boolean iscorrect =check_password(password,email);
+        if(iscorrect)
+        {
+            System.out.println("loging successfully");
+            String query ="select user_id from users where email=?";
+            try{
+                PreparedStatement pst=connection.prepareStatement(query);
+                pst.setString(1,email);
+                ResultSet result=pst.executeQuery();
+                if(result.next()){
+                     id=result.getInt("user_id");
+                    return id;
+                }
+                else{
+                    System.out.println("invalid email");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        else {
+            System.out.println("wrong password;");
+        }
+        return id;
+
+
+
+    }
+
+
 
     public boolean is_exist(String email){
         String query="select * from users where email=?";
@@ -75,8 +114,44 @@ public class User {
     }
 
     public  String encrypt_password(String password)
+
     {
+
+
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
         return hashedPassword;
+    }
+
+    public boolean check_password(String password ,String email)
+    {
+        String query ="Select password from users where email=?";
+        try{
+            PreparedStatement pst= connection.prepareStatement(query);
+            pst.setString(1,email);
+            ResultSet result=pst.executeQuery();
+            if(result.next())
+            {
+                String hashpassword=result.getString("password");
+                if(BCrypt.checkpw(password, hashpassword)){
+                    return true;
+
+                }
+                else{
+                    return false;
+                }
+
+            }
+            else{
+                return false;
+            }
+
+
+        }
+         catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }
 }
