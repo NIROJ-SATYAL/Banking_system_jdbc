@@ -15,6 +15,7 @@ public class Main {
     private static  String db_password;
 
 
+
     static {
         loadDatabaseProperties();
     }
@@ -71,7 +72,64 @@ public class Main {
                         break;
                     case 2:
                         int user_id= user.Login();
-                        System.out.println(user_id);
+                        if(user_id!=0)
+                        {
+                            if(!accounts.account_exist(user_id)){
+                                System.out.println();
+                                System.out.println("1. Open a new Bank Account");
+                                System.out.println("2. Exit");
+                                if(scanner.nextInt() == 1) {
+                                   long account_number = accounts.open_account(user_id);
+
+                                    System.out.println("Account Created Successfully");
+                                    System.out.println("Your Account Number is: " + account_number);
+                                }else{
+                                    break;
+                                }
+                            }
+
+
+                                long account_number=accounts.get_accountnumber(user_id);
+                                int choice2 = 0;
+                                while (choice2 != 5) {
+                                    System.out.println();
+                                    System.out.println("1. Debit Money");
+                                    System.out.println("2. Credit Money");
+                                    System.out.println("3. Transfer Money");
+                                    System.out.println("4. Check Balance");
+                                    System.out.println("5. Log Out");
+                                    System.out.println("Enter your choice: ");
+                                    choice2 = scanner.nextInt();
+
+                                    switch(choice2)
+                                    {
+                                        case 1:
+                                            System.out.println("Debit Money");
+                                            break;
+                                        case 2:
+                                            System.out.println("Credit money");
+                                            break;
+                                        case 3:
+                                            System.out.println("Transfer money");
+                                            break;
+                                        case 4:
+                                            System.out.println("check balance");
+                                            break;
+                                        case 5:
+                                            break;
+                                        default:
+                                            System.out.println("Enter Valid Choice!");
+                                            break;
+
+                                    }
+                                }
+
+
+
+                        }
+                        else {
+                            return;
+                        }
                         break;
                     case 3:
 

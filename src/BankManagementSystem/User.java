@@ -63,29 +63,39 @@ public class User {
         System.out.print("Password: ");
         String password = scanner.nextLine();
         boolean iscorrect =check_password(password,email);
-        if(iscorrect)
+        boolean isEmail=is_exist(email);
+        if(isEmail)
         {
-            System.out.println("loging successfully");
-            String query ="select user_id from users where email=?";
-            try{
-                PreparedStatement pst=connection.prepareStatement(query);
-                pst.setString(1,email);
-                ResultSet result=pst.executeQuery();
-                if(result.next()){
-                     id=result.getInt("user_id");
-                    return id;
-                }
-                else{
-                    System.out.println("invalid email");
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
 
+            if(iscorrect)
+            {
+                System.out.println("loging successfully");
+                String query ="select user_id from users where email=?";
+                try{
+                    PreparedStatement pst=connection.prepareStatement(query);
+                    pst.setString(1,email);
+                    ResultSet result=pst.executeQuery();
+                    if(result.next()){
+                        id=result.getInt("user_id");
+                        return id;
+                    }
+                    else{
+                        System.out.println("invalid email");
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            else {
+                System.out.println("wrong password;");
+            }
         }
         else {
-            System.out.println("wrong password;");
+            System.out.println("invalid email.......");
         }
+
+
         return id;
 
 
