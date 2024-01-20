@@ -12,7 +12,7 @@ public class AccountManager {
     public AccountManager(Connection conn,Scanner scanner){
         this.connection=conn;
         this.scanner=scanner;
-        System.out.println("Create Account Manager class successfully.....");
+
     }
 
 

@@ -12,6 +12,6 @@ public class Accounts {
     public Accounts(Connection conn,Scanner scanner){
         this.connection=conn;
         this.scanner=scanner;
-        System.out.println("create account class successfully....");
+
     }
 }
