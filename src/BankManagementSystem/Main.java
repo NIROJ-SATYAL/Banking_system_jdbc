@@ -1,5 +1,6 @@
 package BankManagementSystem;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -50,6 +51,12 @@ public class Main {
             Connection conn= DriverManager.getConnection(db_url,db_username,db_password);
             Scanner scanner=new Scanner(System.in);
             System.out.println("connection Established successfully....");
+
+            User user=new User(conn,scanner);
+            AccountManager accountManager=new AccountManager(conn,scanner);
+            Accounts accounts=new Accounts(conn,scanner);
+
+            
 
 
         }
