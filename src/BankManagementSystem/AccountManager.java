@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class AccountManager {
@@ -225,6 +224,71 @@ public class AccountManager {
 
 
     }
+    public void show_details(Long account_number){
+        System.out.println("**********User Details*********");
+        System.out.println("enter the pin:");
+        scanner.nextLine();
+        String pin=scanner.nextLine();
+        if(check_pin(pin,account_number)){
+
+            int userID= fetch_userID(account_number,pin);
+
+            String query="SELECT users.full_name, users.email, user_account.Account_number, user_account.balance, user_account.Security_pin\n" +
+                    "FROM users\n" +
+                    "INNER JOIN user_account ON users.user_id = user_account.userID\n" +
+                    "WHERE users.user_id = ?;";
+
+
+            try{
+                PreparedStatement pst=connection.prepareStatement(query);
+                pst.setInt(1,userID);
+                ResultSet result=pst.executeQuery();
+                if(result.next()){
+                    String name=result.getString("full_name");
+                    String email=result.getString("email");
+                    Long account_num=result.getLong("Account_number");
+                    Double balance=result.getDouble("balance");
+                    String user_pin =result.getString("Security_pin");
+
+
+
+
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        }
+        else {
+            System.out.println("wrong pin.......");
+        }
+    }
+
+
+    public int fetch_userID(Long account_number,String pin){
+
+        String query="Select userID from user_account where Account_number=? and Security_pin=?";
+
+        try{
+            PreparedStatement pst=connection.prepareStatement(query);
+            pst.setLong(1,account_number);
+            pst.setString(2,pin);
+            ResultSet result=pst.executeQuery();
+            if(result.next())
+            {
+                return result.getInt("userID");
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 
 
 }

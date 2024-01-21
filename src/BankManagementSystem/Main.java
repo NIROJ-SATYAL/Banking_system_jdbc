@@ -96,7 +96,8 @@ public class Main {
                                     System.out.println("2. Credit Money");
                                     System.out.println("3. Transfer Money");
                                     System.out.println("4. Check Balance");
-                                    System.out.println("5. Log Out");
+                                    System.out.println("5.Show details");
+                                    System.out.println("6. Log Out");
                                     System.out.println("Enter your choice: ");
                                     choice2 = scanner.nextInt();
 
@@ -115,6 +116,10 @@ public class Main {
                                             accountManager.check_balance(account_number);
                                             break;
                                         case 5:
+                                            System.out.println("user details");
+                                            break;
+                                        case 6:
+                                            System.out.println("logout");
                                             break;
                                         default:
                                             System.out.println("Enter Valid Choice!");
