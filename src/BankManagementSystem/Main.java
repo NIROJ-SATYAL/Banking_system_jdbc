@@ -4,7 +4,6 @@ package BankManagementSystem;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.io.*;
 import java.util.Properties;
@@ -104,7 +103,7 @@ public class Main {
                                     switch(choice2)
                                     {
                                         case 1:
-                                            System.out.println("Debit Money");
+                                            accountManager.debit_money(account_number);
                                             break;
                                         case 2:
                                             System.out.println("Credit money");
