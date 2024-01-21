@@ -249,6 +249,11 @@ public class AccountManager {
                     Long account_num=result.getLong("Account_number");
                     Double balance=result.getDouble("balance");
                     String user_pin =result.getString("Security_pin");
+                    System.out.println(name);
+                    System.out.println(email);
+                    System.out.println(account_num);
+                    System.out.println(balance);
+                    System.out.println(user_pin);
 
 
 
@@ -279,10 +284,76 @@ public class AccountManager {
             {
                 return result.getInt("userID");
             }
+             else {
+                // Handle case where no result is found (return a default value or throw an exception)
+                throw new RuntimeException("No user found with the given account number and pin");
+            }
 
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void Transaction_money(Long sender_account_number) throws SQLException {
+        System.out.println("*************Money Transcation********");
+        System.out.println("Enter pin:");
+        scanner.nextLine();
+        String pin=scanner.nextLine();
+        connection.setAutoCommit(false);
+
+        if(check_pin(pin,sender_account_number)){
+
+            System.out.print("Enter Receiver Account Number: ");
+            long receiver_account_number = scanner.nextLong();
+            System.out.print("Enter Amount: ");
+            double amount = scanner.nextDouble();
+            scanner.nextLine();
+
+            if(check_ammount(amount,sender_account_number))
+            {
+                    String query="Select * from user_account where Account_number=?";
+                    PreparedStatement pst=connection.prepareStatement(query);
+                    pst.setLong(1,receiver_account_number);
+                    ResultSet result=pst.executeQuery();
+                    if(result.next())
+                    {
+                      String sendQuery="update user_account set balance=balance - ? where Account_number=?";
+                      String receiveQuery="update user_account set balance=balance+? where Account_number=?";
+                      PreparedStatement sendpst=connection.prepareStatement(sendQuery);
+                      PreparedStatement receivepst=connection.prepareStatement(receiveQuery);
+                      sendpst.setDouble(1,amount);
+                      sendpst.setLong(2,sender_account_number);
+                      receivepst.setDouble(1,amount);
+                      receivepst.setLong(2,receiver_account_number);
+                      int sendrowaffected=sendpst.executeUpdate();
+                      int receiverowaffected=receivepst.executeUpdate();
+                      if(sendrowaffected>0 && receiverowaffected>0)
+                      {
+                          System.out.println("Transaction Successful!");
+                          System.out.println("Rs."+amount+" Transferred Successfully");
+                          connection.commit();
+                          connection.setAutoCommit(true);
+                      }
+                      else {
+                          System.out.println("Transaction Failed");
+                          connection.rollback();
+                          connection.setAutoCommit(true);
+                      }
+
+
+                    }
+                    else {
+                        System.out.println("Doesn't find  Account.....");
+                    }
+
+            }
+            else {
+                System.out.println("insufficient amount......");
+            }
+        }
+        else{
+            System.out.println("wrong pin........");
         }
     }
 

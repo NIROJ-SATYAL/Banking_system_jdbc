@@ -110,16 +110,16 @@ public class Main {
                                             accountManager.credit_money(account_number);
                                             break;
                                         case 3:
-                                            System.out.println("Transfer money");
+                                            accountManager.Transaction_money(account_number);
                                             break;
                                         case 4:
                                             accountManager.check_balance(account_number);
                                             break;
                                         case 5:
-                                            System.out.println("user details");
+                                            accountManager.show_details(account_number);
                                             break;
                                         case 6:
-                                            System.out.println("logout");
+                                            System.exit(1);
                                             break;
                                         default:
                                             System.out.println("Enter Valid Choice!");
