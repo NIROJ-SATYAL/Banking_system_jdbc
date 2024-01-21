@@ -106,13 +106,13 @@ public class Main {
                                             accountManager.debit_money(account_number);
                                             break;
                                         case 2:
-                                            System.out.println("Credit money");
+                                            accountManager.credit_money(account_number);
                                             break;
                                         case 3:
                                             System.out.println("Transfer money");
                                             break;
                                         case 4:
-                                            System.out.println("check balance");
+                                            accountManager.check_balance(account_number);
                                             break;
                                         case 5:
                                             break;
@@ -153,4 +153,7 @@ public class Main {
 
 
     }
+
+
+
 }
